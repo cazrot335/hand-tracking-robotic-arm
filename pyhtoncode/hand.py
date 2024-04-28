@@ -7,7 +7,7 @@ write_video = True
 debug = False
 cam_source = 0 
 if not debug:
-    ser = serial.Serial('/dev/tty.usbmodem11101', 115200)
+    ser = serial.Serial('/dev/tty.NISLFR', 115200)
    
 
 x_min = 0
