@@ -1,38 +1,48 @@
 #include <Servo.h>
-String inputString;
 
-Servo left_right;
-Servo up_down;
+Servo servo[4];
+int default_angle[4] = {75, 90, 90, 60};
 
 void setup()
 {
-  left_right.attach(2);
-  up_down.attach(3);
-  Serial.begin(9600);
+    Serial.begin(115200);
+    servo[0].attach(9);
+    servo[1].attach(10);
+    servo[2].attach(11);
+    servo[3].attach(12);
+
+    for (size_t i = 0; i < 4; i++)
+    {
+        servo[i].write(default_angle[i]);
+    }
 }
 
+byte angle[4];
+byte pre_angle[4];
+long t = millis();
 
 void loop()
 {
-  while(Serial.available())
-  {
-    inputString = Serial.readStringUntil('\r');
-    Serial.println(inputString);
-    int x_axis = inputString.substring(0, inputString.indexOf(',')).toInt();
-    int y_axis = inputString.substring(inputString.indexOf(',') + 1).toInt();
+    if (Serial.available())
+    {
+        Serial.readBytes(angle, 4);
+        for (size_t i = 0; i < 4; i++)
+        {
+            if (angle[i] != pre_angle[i])
+            {
+                servo[i].write(angle[i]);
+                pre_angle[i] = angle[i];
+            }
+        }
+        t = millis();
+    }
 
-    int y = map(y_axis, 0, 1080, 180, 0);
-    int x = map(x_axis, 0, 1920, 180, 0);
-
-    left_right.write(x);
-    up_down.write(y);
-    
-    
-
-    // Print the parsed values
-    Serial.print("First Integer: ");
-    Serial.println(x);
-    Serial.print("Second Integer: ");
-    Serial.println(y);
-  }
+    if (millis() - t > 1000)
+    {
+        for (size_t i = 0; i < 4; i++)
+        {
+            servo[i].write(default_angle[i]);
+            pre_angle[i] = default_angle[i];
+        }
+    }
 }
