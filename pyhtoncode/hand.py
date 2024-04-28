@@ -7,7 +7,7 @@ write_video = True
 debug = False
 cam_source = 0 
 if not debug:
-    ser = serial.Serial('/dev/tty.NISLFR', 115200)
+    ser = serial.Serial('/dev/tty.usbmodem11201', 115200)
    
 
 x_min = 0
@@ -38,7 +38,7 @@ servo_angle = [x_mid,y_mid,z_mid,claw_open_angle] # [x, y, z, claw]
 prev_servo_angle = servo_angle
 fist_threshold = 7
 ser.write(','.join(map(str, servo_angle)).encode())
-
+# land mark drawing pre reqs
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
@@ -105,7 +105,7 @@ with mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracki
             # If loading a video, use 'break' instead of 'continue'.
             continue
 
-        # To improve performance, optionally mark the image as not writeable to
+       # colouring over hnad landmark detections 
         # pass by reference.
         image.flags.writeable = False
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
