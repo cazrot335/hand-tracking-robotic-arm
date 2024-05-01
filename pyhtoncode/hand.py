@@ -7,7 +7,7 @@ write_video = True
 debug = False
 cam_source = 0 
 if not debug:
-    ser = serial.Serial('/dev/tty.usbmodem11201', 115200)
+    ser = serial.Serial('/dev/tty.usbmodem11101', 115200)
    
 
 x_min = 0
@@ -19,7 +19,7 @@ palm_angle_mid = 20
 
 y_min = 0
 y_mid = 90
-y_max = 180
+y_max = 200
 # use wrist y to control y axis
 wrist_y_min = 0.3
 wrist_y_max = 0.9
